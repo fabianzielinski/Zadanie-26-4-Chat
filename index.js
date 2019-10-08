@@ -5,6 +5,9 @@ const socketIo = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+const UsersService - require('./UsersService');
+
+const usersService = new UsersService();
 
 app.use(express.static('${__dirname}/public'));
 
@@ -19,6 +22,7 @@ io.on('connection', (socket) => {
 			users: usersService.getAllUsers()
 		});
 	});
+	
 	socket.on('message', (message) => {
     	const {name} = usersService.getUserById(socket.id);
     	socket.broadcast.emit('message', {
