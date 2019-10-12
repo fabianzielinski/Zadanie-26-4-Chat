@@ -5,7 +5,7 @@ const socketIo = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-const UsersService - require('./UsersService');
+const UsersService = require('./UsersService');
 
 const usersService = new UsersService();
 
@@ -30,6 +30,19 @@ io.on('connection', (socket) => {
       		from: name
     	});
   	});
+
+  	// klient nasłuchuje na wiadomość wejścia do czatu
+	socket.on('join', (name) => {
+  		// użytkownika, który pojawił się w aplikacji, zapisujemy do serwisu trzymającego listę osób w czacie
+  		usersService.addUser({
+    		id: socket.id,
+    		name
+  		});
+  		// aplikacja emituje zdarzenie update, które aktualizuje informację na temat listy użytkowników każdemu nasłuchującemu na wydarzenie 'update'
+  		io.emit('update', {
+   			 users: usersService.getAllUsers()
+  		});
+	});
 });
 
 server.listen(3000, () => {

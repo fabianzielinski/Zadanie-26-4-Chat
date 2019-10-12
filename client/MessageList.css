@@ -6,3 +6,8 @@
     width: 75vw;
     padding: 20px;
 }
+
+.Message {
+	padding: 5px;
+	background-color: #FBFBFB;
+}

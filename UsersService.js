@@ -19,4 +19,5 @@ class UsersService {
     this.users = this.users.filter(user => user.id !== userId);
   }
 }
+
 module.exports = UsersService;
